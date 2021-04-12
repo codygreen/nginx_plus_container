@@ -27,5 +27,5 @@ jobs:
           registry: docker.pkg.github.com
           repository: codygreen/nginx_plus_container/nginx_plus_container/nginxplus
           secrets: |
-            "nginx-repo.crt"=${{ secrets.NGINX_REPO_CRT }}
-            "nginx-repo.key"=${{ secrets.NGINX_REPO_KEY }}
+            "nginx-repo.crt=${{ secrets.NGINX_REPO_CRT }}"
+            "nginx-repo.key=${{ secrets.NGINX_REPO_KEY }}"
