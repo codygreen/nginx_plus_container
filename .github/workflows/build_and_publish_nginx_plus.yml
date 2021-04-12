@@ -9,8 +9,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Copy NGINX crt and key
         run: |
-          echo ${{ secrets.NGINX_REPO_CRT }} >> nginx-repo.crt
-          echo ${{ secrets.NGINX_REPO_KEY }} >> nginx-repo.key
+          echo $secrets.NGINX_REPO_CRT >> nginx-repo.crt
+          echo $secrets.NGINX_REPO_KEY >> nginx-repo.key
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
         with:
