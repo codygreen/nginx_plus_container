@@ -1,0 +1,21 @@
+name: Build and publish NGINX Plus container
+on: [push]
+jobs:
+  push_to_registry:
+    name: Publish NGINX Plus to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Copy NGINX crt and key
+        run: |
+          echo ${{ secrets.NGINX_REPO_CRT }} >> nginx-repo.crt
+          echo ${{ secrets.NGINX_REPO_KEY }} >> nginx-repo.key
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: codygreen/nginx_plus_container/nginx_plus_container/nginxplus
+          tag_with_ref: true
