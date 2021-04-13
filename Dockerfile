@@ -5,6 +5,8 @@ ENV NGINX_NJS_VERSION 23+0.5.0-1~buster
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
+COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
+
 RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
     --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
     set -x \
@@ -21,19 +23,14 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     && apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
     apt-transport-https libcap2-bin nginx-plus=${NGINX_PLUS_VERSION} nginx-plus-module-njs=${NGINX_NJS_VERSION} \
     && apt-get purge --auto-remove -y apt-transport-https gnupg wget \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get install nginx-agent \
+    && systemctl enable nginx-agent --now \
+    && systemctl status nginx-agent
 
 # Forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-
-# Install NGINX-Agent
-COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
-
-RUN set -x \
-    && apt-get install nginx-agent \
-    && systemctl enable nginx-agent --now \
-    && systemctl status nginx-agent
 
 EXPOSE 80
 
