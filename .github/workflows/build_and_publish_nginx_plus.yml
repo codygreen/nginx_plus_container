@@ -2,7 +2,7 @@ name: Build and publish NGINX Plus container
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   docker:
