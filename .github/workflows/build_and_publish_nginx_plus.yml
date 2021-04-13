@@ -26,7 +26,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: user/app:latest
+          tags: codygreen/nginxplus:latest
           secrets: |
             "nginx-repo.crt=${{ secrets.NGINX_REPO_CRT }}"
             "nginx-repo.key=${{ secrets.NGINX_REPO_KEY }}"
