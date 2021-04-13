@@ -14,9 +14,9 @@ LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 # COPY nginx-repo.crt /etc/apk/cert.pem
 # COPY nginx-repo.key /etc/apk/cert.key
 
-RUN set -x \
-    --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
+RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
     --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
+    set -x \
     # Create nginx user/group first, to be consistent throughout Docker variants
     && addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
