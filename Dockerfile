@@ -11,8 +11,8 @@ LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
 # Download certificate and key from the customer portal (https://cs.nginx.com)
 # and copy to the build context
-COPY nginx-repo.crt /etc/apk/cert.pem
-COPY nginx-repo.key /etc/apk/cert.key
+COPY /nginx-repo.crt /etc/apk/cert.pem
+COPY /nginx-repo.key /etc/apk/cert.key
 
 RUN set -x \
     # --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
