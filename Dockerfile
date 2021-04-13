@@ -11,12 +11,12 @@ LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
 # Download certificate and key from the customer portal (https://cs.nginx.com)
 # and copy to the build context
-COPY /tmp/nginx-repo.crt /etc/apk/cert.pem
-COPY /tmp/nginx-repo.key /etc/apk/cert.key
+# COPY /tmp/nginx-repo.crt /etc/apk/cert.pem
+# COPY /tmp/nginx-repo.key /etc/apk/cert.key
 
 RUN set -x \
-    # --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
-    # --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
+    --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
+    --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
     # Create nginx user/group first, to be consistent throughout Docker variants
     && addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \

@@ -7,10 +7,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Copy NGINX crt and key
-        run: |
-          echo $secrets.NGINX_REPO_CRT >> /tmp/nginx-repo.crt
-          echo $secrets.NGINX_REPO_KEY >> /tmp/nginx-repo.key.key
+      # - name: Copy NGINX crt and key
+      #   run: |
+      #     echo $secrets.NGINX_REPO_CRT >> /tmp/nginx-repo.crt
+      #     echo $secrets.NGINX_REPO_KEY >> /tmp/nginx-repo.key.key
       # - name: Push to GitHub Packages
       #   uses: docker/build-push-action@v1
       #   with:
