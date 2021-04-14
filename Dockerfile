@@ -57,22 +57,20 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     && apt-get install --no-install-recommends --no-install-suggests -y \
     $nginxPackages \
     gettext-base \
-    curl \
-    && apt-get remove --purge --auto-remove -y && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx-plus.list \
-    && rm -rf /etc/apt/apt.conf.d/90nginx
+    curl 
 
 # Install NIM Agent
 RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
     --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
     set -x \
-    && apt-get install --no-install-recommends --no-install-suggests -y ca-certificates gnupg wget \
+    && apt-get install --no-install-recommends --no-install-suggests -y wget \
     && printf "deb https://pkgs.nginx.com/instance-manager/debian stable nginx-plus\n" > /etc/apt/sources.list.d/instance-manager.list \
     && wget -q -O /etc/apt/apt.conf.d/90pkgs-nginx https://cs.nginx.com/static/files/90pkgs-nginx \
     && apt-get clean \
     && apt-get update \
     && apt-get install -y nginx-agent \
-    && apt-get purge --auto-remove -y apt-transport-https gnupg wget \
-    && rm -rf /var/lib/apt/lists/* 
+    && apt-get remove --purge --auto-remove -y && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx-plus.list \
+    && rm -rf /etc/apt/apt.conf.d/90nginx
 
 COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
 
