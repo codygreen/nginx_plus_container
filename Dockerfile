@@ -19,9 +19,7 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     && echo "Acquire::https::plus-pkgs.nginx.com::SslKey      \"/etc/ssl/nginx/nginx-repo.key\";" >> /etc/apt/apt.conf.d/90nginx \
     && printf "deb https://plus-pkgs.nginx.com/debian buster nginx-plus\n" > /etc/apt/sources.list.d/nginx-plus.list \
     && apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
-    apt-transport-https libcap2-bin nginx-plus=${NGINX_PLUS_VERSION} nginx-plus-module-njs=${NGINX_NJS_VERSION} \
-    && apt-get purge --auto-remove -y apt-transport-https gnupg wget \
-    && rm -rf /var/lib/apt/lists/* 
+    apt-transport-https libcap2-bin nginx-plus=${NGINX_PLUS_VERSION} nginx-plus-module-njs=${NGINX_NJS_VERSION}
 
 # Install NIM Agent
 COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
@@ -33,7 +31,9 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     && wget -q -O /etc/apt/apt.conf.d/90pkgs-nginx https://cs.nginx.com/static/files/90pkgs-nginx \
     && apt-get clean \
     && apt-get update \
-    && apt-get install -y nginx-agent
+    && apt-get install -y nginx-agent \
+    && apt-get purge --auto-remove -y apt-transport-https gnupg wget \
+    && rm -rf /var/lib/apt/lists/* 
 
 # Forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
