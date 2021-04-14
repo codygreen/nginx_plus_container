@@ -1,3 +1,5 @@
+FROM debian:buster-slim
+
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
 # Define NGINX versions for NGINX Plus and NGINX Plus modules
