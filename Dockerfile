@@ -9,12 +9,9 @@ LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 # ENV NJS_VERSION     0.3.9
 # ENV PKG_RELEASE     1~buster
 
-# Download certificate and key from the customer portal (https://cs.nginx.com)
-# and copy to the build context
-COPY nginx-repo.crt /etc/ssl/nginx/
-COPY nginx-repo.key /etc/ssl/nginx/
-
-RUN set -x \
+RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
+    --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
+    set -x \
     # Create nginx user/group first, to be consistent throughout Docker variants
     && addgroup --system --gid 101 nginx \
     && adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx \
