@@ -22,8 +22,6 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     apt-transport-https libcap2-bin nginx-plus=${NGINX_PLUS_VERSION} nginx-plus-module-njs=${NGINX_NJS_VERSION}
 
 # Install NIM Agent
-COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
-
 RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
     --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
     set -x \
@@ -34,6 +32,8 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
     && apt-get install -y nginx-agent \
     && apt-get purge --auto-remove -y apt-transport-https gnupg wget \
     && rm -rf /var/lib/apt/lists/* 
+
+COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
 
 # Forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
