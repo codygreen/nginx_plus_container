@@ -29,7 +29,7 @@ COPY nginx-agent.conf /etc/nginx-agent/nginx-agent.conf
 RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644 \
     --mount=type=secret,id=nginx-repo.key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644 \
     set -x \
-    && printf "deb https://pkgs.nginx.com/instance-manager/debian stable nginx-plus\n" | tee /etc/apt/sources.list.d/instance-manager.list \
+    && printf "deb https://pkgs.nginx.com/instance-manager/debian stable nginx-plus\n" > /etc/apt/sources.list.d/instance-manager.list \
     && wget -q -O /etc/apt/apt.conf.d/90pkgs-nginx https://cs.nginx.com/static/files/90pkgs-nginx \
     && apt-get clean \
     && apt-get update \
