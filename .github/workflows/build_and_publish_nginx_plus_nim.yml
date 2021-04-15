@@ -4,7 +4,9 @@ on:
     branches:
       - 'main'
     paths:
-      - 'Dockerfile'
+      - 'Dockerfile.plus_nim'
+      - 'entrypoint.sh'
+      - 'nginx-agent.conf'
 
 jobs:
   docker:
@@ -32,7 +34,7 @@ jobs:
           secrets: |
             "nginx-repo.crt=${{ secrets.NGINX_REPO_CRT }}"
             "nginx-repo.key=${{ secrets.NGINX_REPO_KEY }}"
-          file: Dockerfile
+          file: Dockerfile.plus_nim
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

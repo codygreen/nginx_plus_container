@@ -1,10 +1,10 @@
-name: Build and publish NGINX Plus container
+name: Build and publish NGINX Plus unprivileged container
 on:
   push:
     branches:
       - 'main'
     paths:
-      - 'Dockerfile'
+      - 'Dockerfile.unpriv'
 
 jobs:
   docker:
@@ -32,7 +32,7 @@ jobs:
           secrets: |
             "nginx-repo.crt=${{ secrets.NGINX_REPO_CRT }}"
             "nginx-repo.key=${{ secrets.NGINX_REPO_KEY }}"
-          file: Dockerfile
+          file: Dockerfile.plus_nim
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
